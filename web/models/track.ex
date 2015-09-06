@@ -32,6 +32,10 @@ defmodule TicketToRide.Track do
     from t in scope, where: t.ending_city_id == ^(city_id)
   end
 
+  def endpoint_city_ids(scope \\ Track) do
+    from t in scope, select: t.ending_city_id
+  end
+
   def starting_at(scope \\ Track, %City{id: city_id}) do
     from t in scope, where: t.starting_city_id == ^(city_id)
   end

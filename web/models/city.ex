@@ -84,8 +84,19 @@ defmodule TicketToRide.City do
 
   ### PRIVATE FUNCTIONS
 
+  def direct_connections(%City{} = city) do
+    ending_city_ids = Track
+    |> Track.starting_at(city)
+    |> Track.endpoint_city_ids
+    |> Repo.all
+    query = from c in City, select: c, where: c.id in ^(ending_city_ids)
+    Repo.all(query)
+  end
+
   defp connected_1way?(%City{} = starting_city, %City{} = ending_city) do
-    directly_connected_1way?(starting_city, ending_city) # or check proxies
+    directly_connected_1way?(starting_city, ending_city) or
+    City.direct_connections(starting_city)
+    |> Enum.any?(&(City.connected?(&1, ending_city)))
   end
 
   defp directly_connected_1way?(%City{} = starting_city, %City{} = ending_city) do
