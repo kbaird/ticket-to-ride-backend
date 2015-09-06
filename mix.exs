@@ -2,14 +2,16 @@ defmodule TicketToRide.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :ticket_to_ride,
-     version: "0.0.1",
-     elixir: "~> 1.0",
-     elixirc_paths: elixirc_paths(Mix.env),
-     compilers: [:phoenix] ++ Mix.compilers,
-     build_embedded: Mix.env == :prod,
-     start_permanent: Mix.env == :prod,
-     deps: deps]
+    [app:               :ticket_to_ride,
+     version:           "0.0.1",
+     elixir:            "~> 1.0",
+     elixirc_paths:     elixirc_paths(Mix.env),
+     compilers:         [:phoenix] ++ Mix.compilers,
+     build_embedded:    Mix.env == :prod,
+     start_permanent:   Mix.env == :prod,
+     test_coverage:     [tool: ExCoveralls],
+     preferred_cli_env: [coveralls: :test],
+     deps:              deps]
   end
 
   # Configuration for the OTP application
@@ -29,11 +31,15 @@ defmodule TicketToRide.Mixfile do
   #
   # Type `mix help deps` for examples and options
   defp deps do
-    [{:phoenix, "~> 0.17"},
-     {:phoenix_ecto, "~> 1.1"},
-     {:postgrex, ">= 0.0.0"},
-     {:phoenix_html, "~> 2.1"},
-     {:phoenix_live_reload, "~> 1.0", only: :dev},
-     {:cowboy, "~> 1.0"}]
+    [
+      { :phoenix,              "~> 1.0"                },
+      { :phoenix_ecto,         "~> 1.2.0"              },
+      { :postgrex,             ">= 0.0.0"              },
+      { :phoenix_html,         "~> 2.0"                },
+      { :phoenix_live_reload,  "~> 1.0",   only: :dev  },
+      { :cowboy,               "~> 1.0"                },
+      { :excoveralls,          "~> 0.3",   only: :test },
+      { :ex_spec,              "~> 0.3.0", only: :test }
+    ]
   end
 end
