@@ -20,7 +20,9 @@ defmodule TicketToRide.Router do
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", TicketToRide do
-  #   pipe_through :api
-  # end
+  scope "/api", TicketToRide do
+    pipe_through :api
+    resources "/cities", CityController,  except: [:new, :edit]
+    resources "/tracks", TrackController, except: [:new, :edit]
+  end
 end
