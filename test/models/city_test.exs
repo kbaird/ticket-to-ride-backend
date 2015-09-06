@@ -1,4 +1,6 @@
 defmodule TicketToRide.CityTest do
+  use ExUnit.Case
+  doctest TicketToRide.City
   use TicketToRide.ModelCase
 
   alias TicketToRide.City
