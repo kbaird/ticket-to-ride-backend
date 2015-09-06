@@ -90,7 +90,7 @@ defmodule TicketToRide.City do
       iex> sfo = TicketToRide.Repo.insert! %TicketToRide.City{name: "San Francisco"}
       iex> lax = TicketToRide.Repo.insert! %TicketToRide.City{name: "Los Angeles"}
       iex> TicketToRide.Repo.insert! %TicketToRide.Track{starting_city_id: sfo.id, ending_city_id: lax.id}
-      iex> TicketToRide.Repo.insert! %TicketToRide.Track{starting_city_id: pdx.id, ending_city_id: sfo.id}
+      iex> TicketToRide.Repo.insert! %TicketToRide.Track{starting_city_id: sfo.id, ending_city_id: pdx.id}
       iex> TicketToRide.Repo.insert! %TicketToRide.Track{starting_city_id: sea.id, ending_city_id: pdx.id}
       iex> TicketToRide.City.connected?(lax, sea)
       true
