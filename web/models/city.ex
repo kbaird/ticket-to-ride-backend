@@ -53,6 +53,12 @@ defmodule TicketToRide.City do
       iex> TicketToRide.City.connected?(la, sf)
       true
 
+      iex> sf = TicketToRide.Repo.insert! %TicketToRide.City{name: "San Francisco"}
+      iex> la = TicketToRide.Repo.insert! %TicketToRide.City{name: "Los Angeles"}
+      iex> _t = TicketToRide.Repo.insert! %TicketToRide.Track{starting_city_id: sf.id, ending_city_id: la.id}
+      iex> TicketToRide.City.connected?(la, sf)
+      true
+
   """
   @spec connected?(t, t) :: boolean
   def connected?(%City{} = starting_city, %City{} = ending_city) do
