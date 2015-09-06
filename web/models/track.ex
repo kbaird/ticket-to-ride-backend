@@ -2,11 +2,11 @@ defmodule TicketToRide.Track do
   use TicketToRide.Web, :model
 
   schema "tracks" do
-    field :color, :string
-    field :length, :integer
-    belongs_to :completed_by, TicketToRide.CompletedBy
-    belongs_to :starting_city, TicketToRide.StartingCity
-    belongs_to :ending_city, TicketToRide.EndingCity
+    field      :color,         :string
+    field      :length,        :integer
+    belongs_to :completed_by,  TicketToRide.CompletedBy   # TODO: player
+    belongs_to :starting_city, TicketToRide.StartingCity  # TODO: city
+    belongs_to :ending_city,   TicketToRide.EndingCity    # TODO: city
 
     timestamps
   end
