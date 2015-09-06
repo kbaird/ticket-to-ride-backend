@@ -81,7 +81,14 @@ defmodule TicketToRide.City do
     connected_1way?(starting_city, ending_city) or
     connected_1way?(ending_city, starting_city)
   end
-  def connected_1way?(%City{} = starting_city, %City{} = ending_city) do
+
+  ### PRIVATE FUNCTIONS
+
+  defp connected_1way?(%City{} = starting_city, %City{} = ending_city) do
+    directly_connected_1way?(starting_city, ending_city) # or check proxies
+  end
+
+  defp directly_connected_1way?(%City{} = starting_city, %City{} = ending_city) do
     Track
     |> Track.starting_at(starting_city)
     |> Track.ending_at(ending_city)
