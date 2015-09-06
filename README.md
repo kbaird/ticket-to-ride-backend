@@ -1,5 +1,8 @@
 # TicketToRide
 
+A self-study Phoenix app providing a headless JSON API backend server for
+[Ticket To Ride](http://www.daysofwonder.com/tickettoride/en/usa/) by Days of Wonder. No challenge to copyrights or trademarks intended.
+
 To start your Phoenix app:
 
   1. Install dependencies with `mix deps.get`
