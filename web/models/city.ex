@@ -59,6 +59,22 @@ defmodule TicketToRide.City do
       iex> TicketToRide.City.connected?(la, sf)
       true
 
+      iex> pdx = TicketToRide.Repo.insert! %TicketToRide.City{name: "Portland"}
+      iex> sfo = TicketToRide.Repo.insert! %TicketToRide.City{name: "San Francisco"}
+      iex> lax = TicketToRide.Repo.insert! %TicketToRide.City{name: "Los Angeles"}
+      iex> _t = TicketToRide.Repo.insert! %TicketToRide.Track{starting_city_id: sfo.id, ending_city_id: lax.id}
+      iex> _t = TicketToRide.Repo.insert! %TicketToRide.Track{starting_city_id: pdx.id, ending_city_id: sfo.id}
+      iex> TicketToRide.City.connected?(pdx, lax)
+      true
+
+      iex> pdx = TicketToRide.Repo.insert! %TicketToRide.City{name: "Portland"}
+      iex> sfo = TicketToRide.Repo.insert! %TicketToRide.City{name: "San Francisco"}
+      iex> lax = TicketToRide.Repo.insert! %TicketToRide.City{name: "Los Angeles"}
+      iex> _t = TicketToRide.Repo.insert! %TicketToRide.Track{starting_city_id: sfo.id, ending_city_id: lax.id}
+      iex> _t = TicketToRide.Repo.insert! %TicketToRide.Track{starting_city_id: pdx.id, ending_city_id: sfo.id}
+      iex> TicketToRide.City.connected?(lax, pdx)
+      true
+
   """
   @spec connected?(t, t) :: boolean
   def connected?(%City{} = starting_city, %City{} = ending_city) do
