@@ -1,6 +1,9 @@
 defmodule TicketToRide.Track do
   use TicketToRide.Web, :model
 
+  alias TicketToRide.City
+  alias TicketToRide.Track
+
   schema "tracks" do
     field      :color,         :string
     field      :length,        :integer
@@ -23,5 +26,13 @@ defmodule TicketToRide.Track do
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
+  end
+
+  def ending_at(scope \\ Track, %City{id: city_id}) do
+    from t in scope, where: t.ending_city_id == ^(city_id)
+  end
+
+  def starting_at(scope \\ Track, %City{id: city_id}) do
+    from t in scope, where: t.starting_city_id == ^(city_id)
   end
 end

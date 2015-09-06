@@ -2,6 +2,8 @@ defmodule TicketToRide.City do
   use TicketToRide.Web, :model
 
   alias TicketToRide.City
+  alias TicketToRide.Repo
+  alias TicketToRide.Track
 
   @type t :: TicketToRide.City
 
@@ -41,19 +43,23 @@ defmodule TicketToRide.City do
 
       iex> sf = TicketToRide.Repo.insert! %TicketToRide.City{name: "San Francisco"}
       iex> la = TicketToRide.Repo.insert! %TicketToRide.City{name: "Los Angeles"}
-      iex> _t = TicketToRide.Repo.insert! %TicketToRide.Track{starting_city: sf, ending_city: la}
+      iex> _t = TicketToRide.Repo.insert! %TicketToRide.Track{starting_city_id: sf.id, ending_city_id: la.id}
       iex> TicketToRide.City.connected?(sf, la)
       true
 
       iex> sf = TicketToRide.Repo.insert! %TicketToRide.City{name: "San Francisco"}
       iex> la = TicketToRide.Repo.insert! %TicketToRide.City{name: "Los Angeles"}
-      iex> _t = TicketToRide.Repo.insert! %TicketToRide.Track{starting_city: sf, ending_city: la}
+      iex> _t = TicketToRide.Repo.insert! %TicketToRide.Track{starting_city: sf.id, ending_city: la.id}
       iex> TicketToRide.City.connected?(la, sf)
       true
 
   """
   @spec connected?(t, t) :: boolean
   def connected?(%City{} = starting_city, %City{} = ending_city) do
-    false
+    connections = Track
+    |> Track.starting_at(starting_city)
+    |> Track.ending_at(ending_city)
+    |> Repo.all
+    |> Enum.any?
   end
 end
