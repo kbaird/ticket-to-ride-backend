@@ -43,35 +43,35 @@ defmodule TicketToRide.City do
 
       iex> sf = TicketToRide.Repo.insert! %TicketToRide.City{name: "San Francisco"}
       iex> la = TicketToRide.Repo.insert! %TicketToRide.City{name: "Los Angeles"}
-      iex> _t = TicketToRide.Repo.insert! %TicketToRide.Track{starting_city_id: sf.id, ending_city_id: la.id}
+      iex> TicketToRide.Repo.insert! %TicketToRide.Track{starting_city_id: sf.id, ending_city_id: la.id}
       iex> TicketToRide.City.connected?(sf, la)
       true
 
       iex> sf = TicketToRide.Repo.insert! %TicketToRide.City{name: "San Francisco"}
       iex> la = TicketToRide.Repo.insert! %TicketToRide.City{name: "Los Angeles"}
-      iex> _t = TicketToRide.Repo.insert! %TicketToRide.Track{starting_city_id: la.id, ending_city_id: sf.id}
+      iex> TicketToRide.Repo.insert! %TicketToRide.Track{starting_city_id: la.id, ending_city_id: sf.id}
       iex> TicketToRide.City.connected?(la, sf)
       true
 
       iex> sf = TicketToRide.Repo.insert! %TicketToRide.City{name: "San Francisco"}
       iex> la = TicketToRide.Repo.insert! %TicketToRide.City{name: "Los Angeles"}
-      iex> _t = TicketToRide.Repo.insert! %TicketToRide.Track{starting_city_id: sf.id, ending_city_id: la.id}
+      iex> TicketToRide.Repo.insert! %TicketToRide.Track{starting_city_id: sf.id, ending_city_id: la.id}
       iex> TicketToRide.City.connected?(la, sf)
       true
 
       iex> pdx = TicketToRide.Repo.insert! %TicketToRide.City{name: "Portland"}
       iex> sfo = TicketToRide.Repo.insert! %TicketToRide.City{name: "San Francisco"}
       iex> lax = TicketToRide.Repo.insert! %TicketToRide.City{name: "Los Angeles"}
-      iex> _t = TicketToRide.Repo.insert! %TicketToRide.Track{starting_city_id: sfo.id, ending_city_id: lax.id}
-      iex> _t = TicketToRide.Repo.insert! %TicketToRide.Track{starting_city_id: pdx.id, ending_city_id: sfo.id}
+      iex> TicketToRide.Repo.insert! %TicketToRide.Track{starting_city_id: sfo.id, ending_city_id: lax.id}
+      iex> TicketToRide.Repo.insert! %TicketToRide.Track{starting_city_id: pdx.id, ending_city_id: sfo.id}
       iex> TicketToRide.City.connected?(pdx, lax)
       true
 
       iex> pdx = TicketToRide.Repo.insert! %TicketToRide.City{name: "Portland"}
       iex> sfo = TicketToRide.Repo.insert! %TicketToRide.City{name: "San Francisco"}
       iex> lax = TicketToRide.Repo.insert! %TicketToRide.City{name: "Los Angeles"}
-      iex> _t = TicketToRide.Repo.insert! %TicketToRide.Track{starting_city_id: sfo.id, ending_city_id: lax.id}
-      iex> _t = TicketToRide.Repo.insert! %TicketToRide.Track{starting_city_id: pdx.id, ending_city_id: sfo.id}
+      iex> TicketToRide.Repo.insert! %TicketToRide.Track{starting_city_id: sfo.id, ending_city_id: lax.id}
+      iex> TicketToRide.Repo.insert! %TicketToRide.Track{starting_city_id: pdx.id, ending_city_id: sfo.id}
       iex> TicketToRide.City.connected?(lax, pdx)
       true
 
@@ -79,9 +79,9 @@ defmodule TicketToRide.City do
       iex> pdx = TicketToRide.Repo.insert! %TicketToRide.City{name: "Portland"}
       iex> sfo = TicketToRide.Repo.insert! %TicketToRide.City{name: "San Francisco"}
       iex> lax = TicketToRide.Repo.insert! %TicketToRide.City{name: "Los Angeles"}
-      iex> _t = TicketToRide.Repo.insert! %TicketToRide.Track{starting_city_id: sfo.id, ending_city_id: lax.id}
-      iex> _t = TicketToRide.Repo.insert! %TicketToRide.Track{starting_city_id: pdx.id, ending_city_id: sfo.id}
-      iex> _t = TicketToRide.Repo.insert! %TicketToRide.Track{starting_city_id: sea.id, ending_city_id: pdx.id}
+      iex> TicketToRide.Repo.insert! %TicketToRide.Track{starting_city_id: sfo.id, ending_city_id: lax.id}
+      iex> TicketToRide.Repo.insert! %TicketToRide.Track{starting_city_id: pdx.id, ending_city_id: sfo.id}
+      iex> TicketToRide.Repo.insert! %TicketToRide.Track{starting_city_id: sea.id, ending_city_id: pdx.id}
       iex> TicketToRide.City.connected?(sea, lax)
       true
 
@@ -89,9 +89,9 @@ defmodule TicketToRide.City do
       iex> pdx = TicketToRide.Repo.insert! %TicketToRide.City{name: "Portland"}
       iex> sfo = TicketToRide.Repo.insert! %TicketToRide.City{name: "San Francisco"}
       iex> lax = TicketToRide.Repo.insert! %TicketToRide.City{name: "Los Angeles"}
-      iex> _t = TicketToRide.Repo.insert! %TicketToRide.Track{starting_city_id: sfo.id, ending_city_id: lax.id}
-      iex> _t = TicketToRide.Repo.insert! %TicketToRide.Track{starting_city_id: pdx.id, ending_city_id: sfo.id}
-      iex> _t = TicketToRide.Repo.insert! %TicketToRide.Track{starting_city_id: sea.id, ending_city_id: pdx.id}
+      iex> TicketToRide.Repo.insert! %TicketToRide.Track{starting_city_id: sfo.id, ending_city_id: lax.id}
+      iex> TicketToRide.Repo.insert! %TicketToRide.Track{starting_city_id: pdx.id, ending_city_id: sfo.id}
+      iex> TicketToRide.Repo.insert! %TicketToRide.Track{starting_city_id: sea.id, ending_city_id: pdx.id}
       iex> TicketToRide.City.connected?(lax, sea)
       true
 
