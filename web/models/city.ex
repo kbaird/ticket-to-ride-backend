@@ -102,20 +102,7 @@ defmodule TicketToRide.City do
     connected?(ending_city, starting_city, [ending_city])
   end
 
-  def direct_connections(%City{} = city) do
-    query = from c in City,
-      select: c,
-      where:  c.id in ^(connected_city_ids(city))
-    Repo.all(query)
-  end
-
   ### PRIVATE FUNCTIONS
-
-  defp connected_city_ids(%City{} = city) do
-    starting_city_ids = Track |> Track.ending_at(city) |> Track.startpoint_city_ids |> Repo.all
-    ending_city_ids   = Track |> Track.starting_at(city) |> Track.endpoint_city_ids |> Repo.all
-    starting_city_ids ++ ending_city_ids
-  end
 
   defp connected?(%City{} = starting_city, %City{} = ending_city, cities_already_checked) do
     Track.connects?(starting_city, ending_city) or
@@ -124,8 +111,21 @@ defmodule TicketToRide.City do
   end
 
   defp connected_1way?(%City{} = starting_city, %City{} = ending_city, cities_already_checked) do
-    City.direct_connections(starting_city)
+    direct_connections(starting_city)
     |> Enum.reject(&(&1 in cities_already_checked))
     |> Enum.any?(&(connected?(&1, ending_city, [&1 | cities_already_checked])))
+  end
+
+  defp connected_city_ids(%City{} = city) do
+    starting_city_ids = Track |> Track.ending_at(city) |> Track.startpoint_city_ids |> Repo.all
+    ending_city_ids   = Track |> Track.starting_at(city) |> Track.endpoint_city_ids |> Repo.all
+    starting_city_ids ++ ending_city_ids
+  end
+
+  def direct_connections(%City{} = city) do
+    query = from c in City,
+      select: c,
+      where:  c.id in ^(connected_city_ids(city))
+    Repo.all(query)
   end
 end
