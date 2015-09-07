@@ -97,15 +97,17 @@ defmodule TicketToRide.City do
 
   """
   @spec connected?(t, t) :: boolean
-  def connected?(%City{} = starting_city, %City{} = ending_city) do
-    connected?(starting_city, ending_city, [starting_city])
+  def connected?(%City{} = origin, %City{} = dest) do
+    connected?(origin, dest, [origin])
   end
 
   ### PRIVATE FUNCTIONS
 
-  defp connected?(%City{} = starting_city, %City{} = ending_city, cities_already_checked) do
-    ending_city in direct_connections_to(starting_city) or
-    indirectly_connected?(starting_city, ending_city, cities_already_checked)
+  defp connected?(%City{} = city,   %City{} = city, _), do: true
+  defp connected?(%City{} = origin, %City{} = dest, cities_already_checked) do
+    direct_connections_to(origin)
+    |> Enum.reject(&(&1 in cities_already_checked))
+    |> Enum.any?(&(connected?(&1, dest, [&1 | cities_already_checked])))
   end
 
   defp direct_connections_to(%City{} = city) do
@@ -113,11 +115,5 @@ defmodule TicketToRide.City do
     ### connected_city_ids in an integer array field in the DB, and re-calc whenever a Track
     ### is added that connects directly to the city argument (on either end).
     Repo.all(from c in City, select: c, where: c.id in ^(Track.city_ids_connected_to(city)))
-  end
-
-  defp indirectly_connected?(%City{} = starting_city, %City{} = ending_city, cities_already_checked) do
-    direct_connections_to(starting_city)
-    |> Enum.reject(&(&1 in cities_already_checked))
-    |> Enum.any?(&(connected?(&1, ending_city, [&1 | cities_already_checked])))
   end
 end
