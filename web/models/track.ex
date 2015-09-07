@@ -29,7 +29,7 @@ defmodule TicketToRide.Track do
     |> cast(params, @required_fields, @optional_fields)
   end
 
-  def connected_city_ids(%City{} = city) do
+  def city_ids_connected_to(%City{} = city) do
     starting_city_ids = ending_at(city) |> startpoint_city_ids |> Repo.all
     ending_city_ids   = starting_at(city) |> endpoint_city_ids |> Repo.all
     starting_city_ids ++ ending_city_ids
