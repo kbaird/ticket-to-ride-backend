@@ -35,6 +35,12 @@ defmodule TicketToRide.Track do
              t.starting_city_id == ^(city2_id) and t.ending_city_id == ^(city1_id)
   end
 
+  def connected_city_ids(%City{} = city) do
+    starting_city_ids = ending_at(city) |> startpoint_city_ids |> Repo.all
+    ending_city_ids   = starting_at(city) |> endpoint_city_ids |> Repo.all
+    starting_city_ids ++ ending_city_ids
+  end
+
   def connects?(%City{} = starting_city, %City{} = ending_city) do
     between(starting_city, ending_city) |> Repo.all |> Enum.any?
   end
