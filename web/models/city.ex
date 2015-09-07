@@ -110,12 +110,6 @@ defmodule TicketToRide.City do
     indirectly_connected?(ending_city, starting_city, cities_already_checked)
   end
 
-  defp indirectly_connected?(%City{} = starting_city, %City{} = ending_city, cities_already_checked) do
-    direct_connections(starting_city)
-    |> Enum.reject(&(&1 in cities_already_checked))
-    |> Enum.any?(&(connected?(&1, ending_city, [&1 | cities_already_checked])))
-  end
-
   defp connected_city_ids(%City{} = city) do
     starting_city_ids = Track |> Track.ending_at(city) |> Track.startpoint_city_ids |> Repo.all
     ending_city_ids   = Track |> Track.starting_at(city) |> Track.endpoint_city_ids |> Repo.all
@@ -127,5 +121,11 @@ defmodule TicketToRide.City do
       select: c,
       where:  c.id in ^(connected_city_ids(city))
     Repo.all(query)
+  end
+
+  defp indirectly_connected?(%City{} = starting_city, %City{} = ending_city, cities_already_checked) do
+    direct_connections(starting_city)
+    |> Enum.reject(&(&1 in cities_already_checked))
+    |> Enum.any?(&(connected?(&1, ending_city, [&1 | cities_already_checked])))
   end
 end
