@@ -130,6 +130,6 @@ defmodule TicketToRide.City do
   end
 
   defp directly_connected_2way?(%City{} = starting_city, %City{} = ending_city) do
-    Track.between(Track, starting_city, ending_city) |> Repo.all |> Enum.any?
+    Track |> Track.between(starting_city, ending_city) |> Repo.all |> Enum.any?
   end
 end
