@@ -35,17 +35,7 @@ defmodule TicketToRide.Track do
     starting_city_ids ++ ending_city_ids
   end
 
-  def connects?(%City{} = starting_city, %City{} = ending_city) do
-    between(starting_city, ending_city) |> pluck_id |> Repo.all |> Enum.any?
-  end
-
   ### PRIVATE FUNCTIONS
-
-  defp between(scope \\ Track, %City{id: city1_id}, %City{id: city2_id}) do
-    from t in scope,
-      where: t.starting_city_id == ^(city1_id) and t.ending_city_id == ^(city2_id) or
-             t.starting_city_id == ^(city2_id) and t.ending_city_id == ^(city1_id)
-  end
 
   defp ending_at(scope \\ Track, %City{id: city_id}) do
     from t in scope, where: t.ending_city_id == ^(city_id)
@@ -53,10 +43,6 @@ defmodule TicketToRide.Track do
 
   defp endpoint_city_ids(scope) do
     from t in scope, select: t.ending_city_id
-  end
-
-  defp pluck_id(scope) do
-    from t in scope, select: t.id
   end
 
   defp starting_at(scope \\ Track, %City{id: city_id}) do

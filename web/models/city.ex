@@ -104,7 +104,7 @@ defmodule TicketToRide.City do
   ### PRIVATE FUNCTIONS
 
   defp connected?(%City{} = starting_city, %City{} = ending_city, cities_already_checked) do
-    Track.connects?(starting_city, ending_city) or
+    ending_city in direct_connections_to(starting_city) or
     indirectly_connected?(starting_city, ending_city, cities_already_checked)
   end
 
