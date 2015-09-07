@@ -118,18 +118,14 @@ defmodule TicketToRide.City do
   end
 
   defp connected?(%City{} = starting_city, %City{} = ending_city, cities_already_checked) do
+    Track.connects?(starting_city, ending_city) or
     connected_1way?(starting_city, ending_city, cities_already_checked) or
     connected_1way?(ending_city, starting_city, cities_already_checked)
   end
 
   defp connected_1way?(%City{} = starting_city, %City{} = ending_city, cities_already_checked) do
-    directly_connected_2way?(starting_city, ending_city) or
     City.direct_connections(starting_city)
     |> Enum.reject(&(&1 in cities_already_checked))
     |> Enum.any?(&(connected?(&1, ending_city, [&1 | cities_already_checked])))
-  end
-
-  defp directly_connected_2way?(%City{} = starting_city, %City{} = ending_city) do
-    Track.connects?(starting_city, ending_city)
   end
 end
