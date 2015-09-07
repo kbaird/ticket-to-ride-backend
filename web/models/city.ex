@@ -108,7 +108,7 @@ defmodule TicketToRide.City do
     indirectly_connected?(starting_city, ending_city, cities_already_checked)
   end
 
-  def direct_connections(%City{} = city) do
+  defp direct_connections(%City{} = city) do
     ### OPTIMIZE: This is quite DB-inefficient. If needed, I'd probably start by memoizing
     ### connected_city_ids in an integer array field in the DB, and re-calc whenever a Track
     ### is added that connects directly to the city argument (on either end).
