@@ -36,7 +36,7 @@ defmodule TicketToRide.Track do
   end
 
   def connects?(%City{} = starting_city, %City{} = ending_city) do
-    between(starting_city, ending_city) |> Repo.all |> Enum.any?
+    between(starting_city, ending_city) |> pluck_id |> Repo.all |> Enum.any?
   end
 
   ### PRIVATE FUNCTIONS
@@ -53,6 +53,10 @@ defmodule TicketToRide.Track do
 
   defp endpoint_city_ids(scope) do
     from t in scope, select: t.ending_city_id
+  end
+
+  defp pluck_id(scope) do
+    from t in scope, select: t.id
   end
 
   defp starting_at(scope \\ Track, %City{id: city_id}) do
