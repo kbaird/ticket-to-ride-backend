@@ -28,6 +28,12 @@ defmodule TicketToRide.Track do
     |> cast(params, @required_fields, @optional_fields)
   end
 
+  def between(scope \\ Track, %City{id: city1_id}, %City{id: city2_id}) do
+    from t in scope,
+      where: t.starting_city_id == ^(city1_id) and t.ending_city_id == ^(city2_id) or
+             t.starting_city_id == ^(city2_id) and t.ending_city_id == ^(city1_id)
+  end
+
   def ending_at(scope \\ Track, %City{id: city_id}) do
     from t in scope, where: t.ending_city_id == ^(city_id)
   end
@@ -39,4 +45,9 @@ defmodule TicketToRide.Track do
   def starting_at(scope \\ Track, %City{id: city_id}) do
     from t in scope, where: t.starting_city_id == ^(city_id)
   end
+
+  def startpoint_city_ids(scope \\ Track) do
+    from t in scope, select: t.starting_city_id
+  end
+
 end
