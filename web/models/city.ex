@@ -98,8 +98,7 @@ defmodule TicketToRide.City do
   """
   @spec connected?(t, t) :: boolean
   def connected?(%City{} = starting_city, %City{} = ending_city) do
-    connected?(starting_city, ending_city, [starting_city]) or
-    connected?(ending_city, starting_city, [ending_city])
+    connected?(starting_city, ending_city, [starting_city])
   end
 
   ### PRIVATE FUNCTIONS
