@@ -106,8 +106,7 @@ defmodule TicketToRide.City do
 
   defp connected?(%City{} = starting_city, %City{} = ending_city, cities_already_checked) do
     Track.connects?(starting_city, ending_city) or
-    indirectly_connected?(starting_city, ending_city, cities_already_checked) or
-    indirectly_connected?(ending_city, starting_city, cities_already_checked)
+    indirectly_connected?(starting_city, ending_city, cities_already_checked)
   end
 
   defp connected_city_ids(%City{} = city) do
