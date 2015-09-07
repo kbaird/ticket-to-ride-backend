@@ -2,6 +2,7 @@ defmodule TicketToRide.Track do
   use TicketToRide.Web, :model
 
   alias TicketToRide.City
+  alias TicketToRide.Repo
   alias TicketToRide.Track
 
   schema "tracks" do
@@ -32,6 +33,10 @@ defmodule TicketToRide.Track do
     from t in scope,
       where: t.starting_city_id == ^(city1_id) and t.ending_city_id == ^(city2_id) or
              t.starting_city_id == ^(city2_id) and t.ending_city_id == ^(city1_id)
+  end
+
+  def connects?(%City{} = starting_city, %City{} = ending_city) do
+    between(starting_city, ending_city) |> Repo.all |> Enum.any?
   end
 
   def ending_at(scope \\ Track, %City{id: city_id}) do
