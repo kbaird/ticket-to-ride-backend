@@ -115,10 +115,7 @@ defmodule TicketToRide.City do
   end
 
   def direct_connections(%City{} = city) do
-    query = from c in City,
-      select: c,
-      where:  c.id in ^(connected_city_ids(city))
-    Repo.all(query)
+    Repo.all(from c in City, select: c, where: c.id in ^(connected_city_ids(city)))
   end
 
   defp indirectly_connected?(%City{} = starting_city, %City{} = ending_city, cities_already_checked) do
