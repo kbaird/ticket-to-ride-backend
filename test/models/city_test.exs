@@ -1,7 +1,9 @@
 defmodule TicketToRide.CityTest do
   use ExUnit.Case
   doctest TicketToRide.City
+  use TicketToRide.AssociationTestUtils
   use TicketToRide.ModelCase
+  use ExSpec
 
   alias TicketToRide.City
 
@@ -16,5 +18,9 @@ defmodule TicketToRide.CityTest do
   test "changeset with invalid attributes" do
     changeset = City.changeset(%City{}, @invalid_attrs)
     refute changeset.valid?
+  end
+
+  describe "Associations" do
+    test "has many :tracks", do: assert(has_many?(City, :tracks))
   end
 end
