@@ -11,6 +11,8 @@ defmodule TicketToRide.City do
   schema "cities" do
     field :name, :string
 
+    has_many :tracks, Track
+
     timestamps
   end
 
