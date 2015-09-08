@@ -105,9 +105,7 @@ defmodule TicketToRide.City do
   def connected?(%City{} = origin, %City{} = dest, cities_already_checked) do
     direct_connections_to(origin)
     |> Enum.reject(&(&1 in cities_already_checked))
-    |> Enum.any?(fn(new_origin) ->
-      delegate_connected?(new_origin, dest, cities_already_checked)
-    end)
+    |> Enum.any?(&delegate_connected?(&1, dest, cities_already_checked))
   end
 
   ### PRIVATE FUNCTIONS
