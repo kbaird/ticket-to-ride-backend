@@ -110,9 +110,9 @@ defmodule TicketToRide.City do
 
   ### PRIVATE FUNCTIONS
 
-  defp delegate_connected?(new_origin, dest, cities_already_checked) do
+  defp delegate_connected?(origin, dest, cities_already_checked) do
     {:ok, pid} = GenServer.start_link(TicketToRide.ConnectionServer,
-                                      [new_origin, dest, [new_origin | cities_already_checked]])
+                                      [origin, dest, [origin | cities_already_checked]])
     GenServer.call(pid, :connected?)
   end
 
