@@ -101,16 +101,14 @@ defmodule TicketToRide.City do
     connected?(origin, dest, [origin])
   end
 
-  ### PRIVATE FUNCTIONS
-
-  defp connected?(%City{} = city,   %City{} = city, _), do: true
-  defp connected?(%City{} = origin, %City{} = dest, cities_already_checked) do
-    direct_connections_to(origin)
-    |> Enum.reject(&(&1 in cities_already_checked))
-    |> Enum.any?(&(connected?(&1, dest, [&1 | cities_already_checked])))
+  def connected?(%City{} = city,   %City{} = city, _), do: true
+  def connected?(%City{} = origin, %City{} = dest, cities_already_checked) do
+    {:ok, pid} = GenServer.start_link(TicketToRide.ConnectionServer,
+                                      [origin, dest, cities_already_checked])
+    GenServer.call(pid, :connected?)
   end
 
-  defp direct_connections_to(%City{} = city) do
+  def direct_connections_to(%City{} = city) do
     ### OPTIMIZE: This is quite DB-inefficient. If needed, I'd probably start by memoizing
     ### connected_city_ids in an integer array field in the DB, and re-calc whenever a Track
     ### is added that connects directly to the city argument (on either end).
