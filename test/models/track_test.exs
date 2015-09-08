@@ -1,5 +1,9 @@
 defmodule TicketToRide.TrackTest do
+  use ExUnit.Case
+  doctest TicketToRide.Track
+  use TicketToRide.AssociationTestUtils
   use TicketToRide.ModelCase
+  use ExSpec
 
   alias TicketToRide.Track
 
@@ -14,5 +18,10 @@ defmodule TicketToRide.TrackTest do
   test "changeset with invalid attributes" do
     changeset = Track.changeset(%Track{}, @invalid_attrs)
     refute changeset.valid?
+  end
+
+  describe "Associations" do
+    test "belongs_to :origin",      do: assert(belongs_to?(Track, :origin))
+    test "belongs_to :destination", do: assert(belongs_to?(Track, :destination))
   end
 end
