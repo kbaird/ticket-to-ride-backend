@@ -2,6 +2,7 @@ defmodule TicketToRide.City do
   use TicketToRide.Web, :model
 
   alias TicketToRide.City
+  alias TicketToRide.ConnectionServer
   alias TicketToRide.Repo
   alias TicketToRide.Track
 
@@ -111,8 +112,8 @@ defmodule TicketToRide.City do
   ### PRIVATE FUNCTIONS
 
   defp delegate_connected?(origin, dest, cities_already_checked) do
-    {:ok, pid} = GenServer.start_link(TicketToRide.ConnectionServer,
-                                      [origin, dest, [origin | cities_already_checked]])
+    gs_args    = [origin, dest, [origin | cities_already_checked]]
+    {:ok, pid} = GenServer.start_link(ConnectionServer, gs_args)
     GenServer.call(pid, :connected?)
   end
 
