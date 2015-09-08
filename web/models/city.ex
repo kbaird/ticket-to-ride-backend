@@ -106,13 +106,13 @@ defmodule TicketToRide.City do
     direct_connections_to(origin)
     |> Enum.reject(&(&1 in cities_already_checked))
     |> Enum.any?(fn(new_origin) ->
-      delegate_connected?(new_origin, origin, dest, cities_already_checked)
+      delegate_connected?(new_origin, dest, cities_already_checked)
     end)
   end
 
   ### PRIVATE FUNCTIONS
 
-  defp delegate_connected?(new_origin, origin, dest, cities_already_checked) do
+  defp delegate_connected?(new_origin, dest, cities_already_checked) do
     {:ok, pid} = GenServer.start_link(TicketToRide.ConnectionServer,
                                       [new_origin, dest, [new_origin | cities_already_checked]])
     GenServer.call(pid, :connected?)
