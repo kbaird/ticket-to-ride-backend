@@ -3,17 +3,17 @@ defmodule TicketToRide.Repo.Migrations.CreateTrack do
 
   def change do
     create table(:tracks) do
-      add :color, :string
-      add :length, :integer
-      add :completed_by_id, references(:cities)
-      add :starting_city_id, references(:cities)
-      add :ending_city_id, references(:cities)
+      add :color,           :string
+      add :length,          :integer
+      add :completed_by_id, :integer  #, references(:players) #TODO
+      add :origin_id,       references(:cities)
+      add :destination_id,  references(:cities)
 
       timestamps
     end
     create index(:tracks, [:completed_by_id])
-    create index(:tracks, [:starting_city_id])
-    create index(:tracks, [:ending_city_id])
+    create index(:tracks, [:origin_id])
+    create index(:tracks, [:destination_id])
 
   end
 end

@@ -21,8 +21,8 @@ defmodule TicketToRide.TrackControllerTest do
     assert json_response(conn, 200)["data"] == 
       %{"id"               => track.id,
         "completed_by_id"  => track.completed_by_id,
-        "starting_city_id" => track.starting_city_id,
-        "ending_city_id"   => track.ending_city_id,
+        "origin_id" => track.origin_id,
+        "destination_id"   => track.destination_id,
         "color"            => track.color,
         "length"           => track.length}
   end

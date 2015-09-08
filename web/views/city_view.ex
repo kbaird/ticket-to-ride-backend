@@ -10,7 +10,7 @@ defmodule TicketToRide.CityView do
   end
 
   def render("city.json", %{city: city}) do
-    %{id: city.id,
+    %{id:   city.id,
       name: city.name}
   end
 end

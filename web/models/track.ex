@@ -6,11 +6,11 @@ defmodule TicketToRide.Track do
   alias TicketToRide.Track
 
   schema "tracks" do
-    field      :color,         :string
-    field      :length,        :integer
-    belongs_to :completed_by,  TicketToRide.CompletedBy   # TODO: player
-    belongs_to :starting_city, TicketToRide.StartingCity  # TODO: city
-    belongs_to :ending_city,   TicketToRide.EndingCity    # TODO: city
+    field      :color,        :string
+    field      :length,       :integer
+    belongs_to :completed_by, TicketToRide.CompletedBy   # TODO: player
+    belongs_to :origin,       City
+    belongs_to :destination,  City
 
     timestamps
   end
@@ -30,27 +30,27 @@ defmodule TicketToRide.Track do
   end
 
   def city_ids_connected_to(%City{} = city) do
-    starting_city_ids = ending_at(city) |> startpoint_city_ids |> Repo.all
-    ending_city_ids   = starting_at(city) |> endpoint_city_ids |> Repo.all
-    starting_city_ids ++ ending_city_ids
+    origin_ids      = ending_at(city)   |> origin_ids      |> Repo.all
+    destination_ids = starting_at(city) |> destination_ids |> Repo.all
+    origin_ids ++ destination_ids
   end
 
   ### PRIVATE FUNCTIONS
 
-  defp ending_at(scope \\ Track, %City{id: city_id}) do
-    from t in scope, where: t.ending_city_id == ^(city_id)
+  defp destination_ids(scope) do
+    from t in scope, select: t.destination_id
   end
 
-  defp endpoint_city_ids(scope) do
-    from t in scope, select: t.ending_city_id
+  defp ending_at(scope \\ Track, %City{id: city_id}) do
+    from t in scope, where: t.destination_id == ^(city_id)
+  end
+
+  defp origin_ids(scope) do
+    from t in scope, select: t.origin_id
   end
 
   defp starting_at(scope \\ Track, %City{id: city_id}) do
-    from t in scope, where: t.starting_city_id == ^(city_id)
-  end
-
-  defp startpoint_city_ids(scope) do
-    from t in scope, select: t.starting_city_id
+    from t in scope, where: t.origin_id == ^(city_id)
   end
 
 end
