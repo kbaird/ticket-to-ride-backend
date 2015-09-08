@@ -26,8 +26,6 @@ defmodule TicketToRide.ConnectionServer do
   ### PRIVATE FUNCTIONS
 
   defp connected?(origin, dest, cities_already_checked) do
-    City.direct_connections_to(origin)
-    |> Enum.reject(&(&1 in cities_already_checked))
-    |> Enum.any?(&(City.connected?(&1, dest, [&1 | cities_already_checked])))
+    City.connected?(origin, dest, cities_already_checked)
   end
 end
