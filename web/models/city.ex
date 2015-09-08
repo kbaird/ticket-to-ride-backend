@@ -2,6 +2,7 @@ defmodule TicketToRide.City do
   use TicketToRide.Web, :model
 
   alias TicketToRide.City
+  alias TicketToRide.ConnectionServer
   alias TicketToRide.Repo
   alias TicketToRide.Track
 
@@ -98,17 +99,25 @@ defmodule TicketToRide.City do
   """
   @spec connected?(t, t) :: boolean
   def connected?(%City{} = origin, %City{} = dest) do
-    connected?(origin, dest, [origin])
+    delegate_connected?(origin, dest, [])
   end
 
   def connected?(%City{} = city,   %City{} = city, _), do: true
   def connected?(%City{} = origin, %City{} = dest, cities_already_checked) do
-    {:ok, pid} = GenServer.start_link(TicketToRide.ConnectionServer,
-                                      [origin, dest, cities_already_checked])
+    direct_connections_to(origin)
+    |> Enum.reject(&(&1 in cities_already_checked))
+    |> Enum.any?(&delegate_connected?(&1, dest, cities_already_checked))
+  end
+
+  ### PRIVATE FUNCTIONS
+
+  defp delegate_connected?(origin, dest, cities_already_checked) do
+    gs_args    = [origin, dest, [origin | cities_already_checked]]
+    {:ok, pid} = GenServer.start_link(ConnectionServer, gs_args)
     GenServer.call(pid, :connected?)
   end
 
-  def direct_connections_to(%City{} = city) do
+  defp direct_connections_to(%City{} = city) do
     ### OPTIMIZE: This is quite DB-inefficient. If needed, I'd probably start by memoizing
     ### connected_city_ids in an integer array field in the DB, and re-calc whenever a Track
     ### is added that connects directly to the city argument (on either end).
