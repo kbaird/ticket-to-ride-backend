@@ -6,7 +6,7 @@ defmodule TicketToRide.City do
   alias TicketToRide.Repo
   alias TicketToRide.Track
 
-  @type t :: TicketToRide.City
+  @type t :: %City{}
 
   schema "cities" do
     field :name, :string
