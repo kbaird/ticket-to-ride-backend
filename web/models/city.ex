@@ -98,7 +98,7 @@ defmodule TicketToRide.City do
   """
   @spec connected?(t, t) :: boolean
   def connected?(%City{} = origin, %City{} = dest) do
-    connected?(origin, dest, [origin])
+    delegate_connected?(origin, dest, [])
   end
 
   def connected?(%City{} = city,   %City{} = city, _), do: true
