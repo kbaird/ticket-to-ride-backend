@@ -1,7 +1,7 @@
 defmodule TicketToRide.CityTest do
   use ExUnit.Case
   doctest TicketToRide.City
-  use TicketToRide.AssociationTestUtils
+  use TicketToRide.AssociationTestUtils, TicketToRide.City
   use TicketToRide.ModelCase
   use ExSpec
 
@@ -21,6 +21,6 @@ defmodule TicketToRide.CityTest do
   end
 
   describe "Associations" do
-    test "has many :tracks", do: assert(has_many?(City, :tracks))
+    test "has many :tracks", do: assert(has_many?(:tracks))
   end
 end

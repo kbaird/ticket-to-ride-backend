@@ -1,7 +1,7 @@
 defmodule TicketToRide.TrackTest do
   use ExUnit.Case
   doctest TicketToRide.Track
-  use TicketToRide.AssociationTestUtils
+  use TicketToRide.AssociationTestUtils, TicketToRide.Track
   use TicketToRide.ModelCase
   use ExSpec
 
@@ -21,7 +21,7 @@ defmodule TicketToRide.TrackTest do
   end
 
   describe "Associations" do
-    test "belongs_to :origin",      do: assert(belongs_to?(Track, :origin))
-    test "belongs_to :destination", do: assert(belongs_to?(Track, :destination))
+    test "belongs_to :origin",      do: assert(belongs_to?(:origin))
+    test "belongs_to :destination", do: assert(belongs_to?(:destination))
   end
 end
