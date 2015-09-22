@@ -34,8 +34,7 @@ defmodule TicketToRide.ConnectionServer do
 
   defp spawn_connected?(origin, dest, cities_already_checked) do
     # OPTIMIZE: Any way to remove semi-duplication with City.connected?/2 ?
-    gs_args    = [origin, dest, cities_already_checked]
-    {:ok, pid} = GenServer.start_link(__MODULE__, gs_args)
+    {:ok, pid} = GenServer.start_link(__MODULE__, [origin, dest, cities_already_checked])
     GenServer.call(pid, :connected?)
   end
 end
