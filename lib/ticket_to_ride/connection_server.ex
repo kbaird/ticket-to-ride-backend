@@ -29,12 +29,12 @@ defmodule TicketToRide.ConnectionServer do
   defp connected?(%City{} = origin, %City{} = dest, cities_already_checked) do
     City.direct_connections_to(origin)
     |> Enum.reject(&(&1 in cities_already_checked))
-    |> Enum.any?(&spawn_connected?(&1, dest, cities_already_checked))
+    |> Enum.any?(&spawn_connected?(&1, dest, [origin | cities_already_checked]))
   end
 
   defp spawn_connected?(origin, dest, cities_already_checked) do
     # OPTIMIZE: Any way to remove semi-duplication with City.connected?/2 ?
-    gs_args    = [origin, dest, [origin | cities_already_checked]]
+    gs_args    = [origin, dest, cities_already_checked]
     {:ok, pid} = GenServer.start_link(__MODULE__, gs_args)
     GenServer.call(pid, :connected?)
   end
