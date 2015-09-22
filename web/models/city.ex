@@ -101,19 +101,19 @@ defmodule TicketToRide.City do
   """
   @spec connected?(t, t) :: boolean
   def connected?(%City{} = origin, %City{} = dest) do
-    delegate_connected?(origin, dest, [])
+    spawn_connected?(origin, dest, [])
   end
 
   def connected?(%City{} = city,   %City{} = city, _), do: true
   def connected?(%City{} = origin, %City{} = dest, cities_already_checked) do
     direct_connections_to(origin)
     |> Enum.reject(&(&1 in cities_already_checked))
-    |> Enum.any?(&delegate_connected?(&1, dest, cities_already_checked))
+    |> Enum.any?(&spawn_connected?(&1, dest, cities_already_checked))
   end
 
   ### PRIVATE FUNCTIONS
 
-  defp delegate_connected?(origin, dest, cities_already_checked) do
+  defp spawn_connected?(origin, dest, cities_already_checked) do
     gs_args    = [origin, dest, [origin | cities_already_checked]]
     {:ok, pid} = GenServer.start_link(ConnectionServer, gs_args)
     GenServer.call(pid, :connected?)
