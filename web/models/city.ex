@@ -103,7 +103,9 @@ defmodule TicketToRide.City do
   def connected?(origin, dest, cities_already_checked \\ [])
   def connected?(%City{} = city,   %City{} = city, _), do: true
   def connected?(%City{} = origin, %City{} = dest, cities_already_checked) do
-    spawn_connected?(origin, dest, cities_already_checked)
+    gs_args    = [origin, dest, [origin | cities_already_checked]]
+    {:ok, pid} = GenServer.start_link(ConnectionServer, gs_args)
+    GenServer.call(pid, :connected?)
   end
 
   def direct_connections_to(%City{} = city) do
@@ -111,13 +113,5 @@ defmodule TicketToRide.City do
     ### connected_city_ids in an integer array field in the DB, and re-calc whenever a Track
     ### is added that connects directly to the city argument (on either end).
     Repo.all(from c in City, select: c, where: c.id in ^(Track.city_ids_connected_to(city)))
-  end
-
-  ### PRIVATE FUNCTIONS
-
-  defp spawn_connected?(origin, dest, cities_already_checked) do
-    gs_args    = [origin, dest, [origin | cities_already_checked]]
-    {:ok, pid} = GenServer.start_link(ConnectionServer, gs_args)
-    GenServer.call(pid, :connected?)
   end
 end
