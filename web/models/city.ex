@@ -99,12 +99,9 @@ defmodule TicketToRide.City do
       true
 
   """
-  @spec connected?(t, t, [t]) :: boolean
-  def connected?(origin, dest, cities_already_checked \\ [])
-
-  def connected?(%City{} = origin, %City{} = dest, cities_already_checked) do
-    gs_args    = [origin, dest, [origin | cities_already_checked]]
-    {:ok, pid} = GenServer.start_link(ConnectionServer, gs_args)
+  @spec connected?(t, t) :: boolean
+  def connected?(origin, dest) do
+    {:ok, pid} = GenServer.start_link(ConnectionServer, [origin, dest, [origin]])
     GenServer.call(pid, :connected?)
   end
 
