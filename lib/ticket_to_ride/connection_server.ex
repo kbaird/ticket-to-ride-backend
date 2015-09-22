@@ -5,14 +5,6 @@ defmodule TicketToRide.ConnectionServer do
 
   @type t :: %City{}
 
-  @spec connected?(t, t, [t]) :: boolean
-  def connected?(%City{} = city,   %City{} = city, _), do: true
-  def connected?(%City{} = origin, %City{} = dest, cities_already_checked) do
-    City.direct_connections_to(origin)
-    |> Enum.reject(&(&1 in cities_already_checked))
-    |> Enum.any?(&spawn_connected?(&1, dest, cities_already_checked))
-  end
-
   def handle_call(:connected?, _from, [origin, dest, cities_already_checked]) do
     {:reply, connected?(origin, dest, cities_already_checked), []}
   end
@@ -31,6 +23,14 @@ defmodule TicketToRide.ConnectionServer do
   def code_change(_old_vsn, _state, _extra), do: {:error, :not_implemented}
 
   ### PRIVATE FUNCTIONS
+
+  @spec connected?(t, t, [t]) :: boolean
+  defp connected?(%City{} = city,   %City{} = city, _), do: true
+  defp connected?(%City{} = origin, %City{} = dest, cities_already_checked) do
+    City.direct_connections_to(origin)
+    |> Enum.reject(&(&1 in cities_already_checked))
+    |> Enum.any?(&spawn_connected?(&1, dest, cities_already_checked))
+  end
 
   defp spawn_connected?(origin, dest, cities_already_checked) do
     # OPTIMIZE: Any way to remove semi-duplication with City.connected?/2 ?
