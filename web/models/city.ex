@@ -106,12 +106,12 @@ defmodule TicketToRide.City do
   end
 
   def direct_connections_to(%City{} = city) do
-    City |> cities |> connected_to(city) |> Repo.all
+    cities |> connected_to(city) |> Repo.all
   end
 
   ### PRIVATE SCOPES
 
-  defp cities(scope), do: (from c in scope, select: c)
+  defp cities(scope \\ City), do: (from c in scope, select: c)
 
   defp connected_to(scope, %City{} = city) do
     ### OPTIMIZE: This is quite DB-inefficient. If needed, I'd probably start by memoizing
