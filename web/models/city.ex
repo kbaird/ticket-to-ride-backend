@@ -106,9 +106,17 @@ defmodule TicketToRide.City do
   end
 
   def direct_connections_to(%City{} = city) do
+    City |> cities |> connected_to(city) |> Repo.all
+  end
+
+  ### PRIVATE SCOPES
+
+  defp cities(scope), do: (from c in scope, select: c)
+
+  defp connected_to(scope, %City{} = city) do
     ### OPTIMIZE: This is quite DB-inefficient. If needed, I'd probably start by memoizing
     ### connected_city_ids in an integer array field in the DB, and re-calc whenever a Track
     ### is added that connects directly to the city argument (on either end).
-    Repo.all(from c in City, select: c, where: c.id in ^(Track.city_ids_connected_to(city)))
+    from c in scope, where: c.id in ^(Track.city_ids_connected_to(city))
   end
 end
