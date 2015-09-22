@@ -99,12 +99,11 @@ defmodule TicketToRide.City do
       true
 
   """
-  @spec connected?(t, t) :: boolean
-  def connected?(%City{} = origin, %City{} = dest) do
-    spawn_connected?(origin, dest, [])
-  end
+  @spec connected?(t, t, [t]) :: boolean
+  def connected?(origin, dest, cities_already_checked \\ [])
 
   def connected?(%City{} = city,   %City{} = city, _), do: true
+
   def connected?(%City{} = origin, %City{} = dest, cities_already_checked) do
     direct_connections_to(origin)
     |> Enum.reject(&(&1 in cities_already_checked))
