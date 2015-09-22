@@ -4,7 +4,7 @@ defmodule TicketToRide.ConnectionServer do
   alias TicketToRide.City
 
   def handle_call(:connected?, _from, [origin, dest, cities_already_checked]) do
-    {:reply, connected?(origin, dest, cities_already_checked), []}
+    {:reply, City.connected?(origin, dest, cities_already_checked), []}
   end
 
   def handle_cast(:connected?, [_origin, _dest, _cities_already_checked]) do
@@ -22,10 +22,4 @@ defmodule TicketToRide.ConnectionServer do
   def handle_info(_msg, state), do: {:noreply, state}
 
   def terminate(_reason, _state), do: :ok
-
-  ### PRIVATE FUNCTIONS
-
-  defp connected?(origin, dest, cities_already_checked) do
-    City.connected?(origin, dest, cities_already_checked)
-  end
 end
