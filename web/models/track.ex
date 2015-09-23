@@ -1,5 +1,6 @@
 defmodule TicketToRide.Track do
   use TicketToRide.Web, :model
+  use TicketToRide.TrackScopes
 
   alias TicketToRide.City
   alias TicketToRide.Repo
@@ -29,28 +30,11 @@ defmodule TicketToRide.Track do
     |> cast(params, @required_fields, @optional_fields)
   end
 
+  @spec city_ids_connected_to(City.t) :: [City.t]
   def city_ids_connected_to(%City{} = city) do
     origin_ids      = ending_at(city)   |> origin_ids      |> Repo.all
     destination_ids = starting_at(city) |> destination_ids |> Repo.all
     origin_ids ++ destination_ids
-  end
-
-  ### PRIVATE FUNCTIONS
-
-  defp destination_ids(scope) do
-    from t in scope, select: t.destination_id
-  end
-
-  defp ending_at(scope \\ Track, %City{id: city_id}) do
-    from t in scope, where: t.destination_id == ^(city_id)
-  end
-
-  defp origin_ids(scope) do
-    from t in scope, select: t.origin_id
-  end
-
-  defp starting_at(scope \\ Track, %City{id: city_id}) do
-    from t in scope, where: t.origin_id == ^(city_id)
   end
 
 end

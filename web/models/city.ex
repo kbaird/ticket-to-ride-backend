@@ -117,6 +117,7 @@ defmodule TicketToRide.City do
     GenServer.call(pid, :connected?)
   end
 
+  @spec direct_connections_to(t) :: [t]
   def direct_connections_to(%City{} = city) do
     cities |> connected_to(city) |> Repo.all
   end
