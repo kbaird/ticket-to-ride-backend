@@ -1,5 +1,6 @@
 defmodule TicketToRide.City do
   use TicketToRide.Web, :model
+  use TicketToRide.CityScopes
 
   alias TicketToRide.City
   alias TicketToRide.ConnectionServer
@@ -118,16 +119,5 @@ defmodule TicketToRide.City do
 
   def direct_connections_to(%City{} = city) do
     cities |> connected_to(city) |> Repo.all
-  end
-
-  ### PRIVATE SCOPES
-
-  defp cities(scope \\ City), do: (from c in scope, select: c)
-
-  defp connected_to(scope, %City{} = city) do
-    ### OPTIMIZE: This is quite DB-inefficient. If needed, I'd probably start by memoizing
-    ### connected_city_ids in an integer array field in the DB, and re-calc whenever a Track
-    ### is added that connects directly to the city argument (on either end).
-    from c in scope, where: c.id in ^(Track.city_ids_connected_to(city))
   end
 end
