@@ -30,6 +30,7 @@ defmodule TicketToRide.Track do
     |> cast(params, @required_fields, @optional_fields)
   end
 
+  @spec city_ids_connected_to(City.t) :: [City.t]
   def city_ids_connected_to(%City{} = city) do
     origin_ids      = ending_at(city)   |> origin_ids      |> Repo.all
     destination_ids = starting_at(city) |> destination_ids |> Repo.all
