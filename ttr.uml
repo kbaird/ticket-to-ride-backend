@@ -1,0 +1,32 @@
+@startuml
+
+note over Player
+  Created with plantuml ttr.uml
+  Cf. http://plantuml.com/sequence.html
+endnote
+
+actor Player
+
+Player -> Turn: Start
+
+== Draw Train Cards, OR ==
+
+autonumber
+Turn --> TrainsDeck: Draw Cards
+TrainsDeck -> Player: Cards Drawn
+
+== Draw Route Cards, OR ==
+
+autonumber
+Turn --> RoutesDeck: Draw Cards
+RoutesDeck -> Player: Cards Drawn
+
+== Build Track ==
+
+autonumber
+Turn --> Track: Build
+Track -> Player: Add Completed By
+Track -> Route: Completed?
+Route --> Player: Add Completed By
+
+@enduml
