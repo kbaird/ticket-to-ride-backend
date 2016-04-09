@@ -2,6 +2,7 @@ defmodule TicketToRide.ConnectionServer do
   use GenServer
 
   alias TicketToRide.City
+  alias TicketToRide.Repo
 
   @type t :: %City{}
 
@@ -28,6 +29,7 @@ defmodule TicketToRide.ConnectionServer do
   defp connected?(%City{} = city,   %City{} = city, _), do: true
   defp connected?(%City{} = origin, %City{} = dest, cities_already_checked) do
     City.direct_connections_to(origin)
+    |> Repo.all
     |> Enum.reject(&(&1 in cities_already_checked))
     |> Enum.any?(&spawn_connected?(&1, dest, [origin | cities_already_checked]))
   end
