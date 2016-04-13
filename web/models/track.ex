@@ -26,17 +26,7 @@ defmodule TicketToRide.Track do
   with no validation performed.
   """
   def changeset(model, params \\ :empty) do
-    model
-    |> cast(params, @required_fields, @optional_fields)
-  end
-
-  @spec city_ids_connected_to(City.t) :: [City.t]
-  def city_ids_connected_to(%City{} = city) do
-    ### FIXME: Get Repo calls out of the model
-    ### Phoenix policy is to keep views & models side effect-free
-    id_pairs_connected_to(city) |> Repo.all
-                                |> List.flatten
-                                |> Enum.uniq
+    model |> cast(params, @required_fields, @optional_fields)
   end
 
 end

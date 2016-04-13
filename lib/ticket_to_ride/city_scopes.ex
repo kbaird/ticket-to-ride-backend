@@ -4,6 +4,7 @@ defmodule TicketToRide.CityScopes do
     quote do
 
       alias TicketToRide.City
+      alias TicketToRide.Repo
       alias TicketToRide.Track
 
       ### PRIVATE SCOPES
@@ -11,10 +12,12 @@ defmodule TicketToRide.CityScopes do
       defp cities(scope \\ City), do: (from c in scope, select: c)
 
       defp connected_to(scope, city) do
-        ### OPTIMIZE: This is quite DB-inefficient. If needed, I'd probably start by memoizing
-        ### connected_city_ids in an integer array field in the DB, and re-calc whenever a Track
-        ### is added that connects directly to the city argument (on either end).
-        from c in scope, where: c.id in ^(Track.city_ids_connected_to(city))
+        ### FIXME: Get Repo calls out of the model
+        ### Phoenix policy is to keep views & models side effect-free
+        city_ids = Track.id_pairs_connected_to(city) |> Repo.all
+                                                     |> List.flatten
+                                                     |> Enum.uniq
+        from c in scope, where: c.id in ^(city_ids)
       end
 
     end
