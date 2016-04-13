@@ -14,6 +14,11 @@ defmodule TicketToRide.CityScopes do
       defp connected_to(scope, city) do
         ### FIXME: Get Repo calls out of the model
         ### Phoenix policy is to keep views & models side effect-free
+
+        ### Slurp all {id, origin_id, destination_id} from Tracks at
+        ### the start of ConnectionServer.handle_call(:connected?),
+        ### and pass that data in to connected?/3 (now becoming
+        ### connected?/4) to avoid DB lookups within the spawns.
         city_ids = Track.id_pairs_connected_to(city) |> Repo.all
                                                      |> List.flatten
                                                      |> Enum.uniq
