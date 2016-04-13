@@ -3,7 +3,6 @@ defmodule TicketToRide.Track do
   use TicketToRide.TrackScopes
 
   alias TicketToRide.City
-  alias TicketToRide.Repo
   alias TicketToRide.Track
 
   schema "tracks" do
