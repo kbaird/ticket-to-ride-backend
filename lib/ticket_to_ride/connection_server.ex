@@ -3,6 +3,7 @@ defmodule TicketToRide.ConnectionServer do
 
   alias TicketToRide.City
   alias TicketToRide.Repo
+  alias TicketToRide.Track
 
   @type t :: %City{}
 
