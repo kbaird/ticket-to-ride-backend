@@ -7,7 +7,8 @@ defmodule TicketToRide.ConnectionServer do
   @type t :: %City{}
 
   def handle_call(:connected?, _from, [origin, dest, cities_already_checked]) do
-    {:reply, connected?(origin, dest, cities_already_checked), []}
+    result = connected?(origin, dest, cities_already_checked)
+    {:reply, result, []}
   end
 
   def handle_info(_msg, state), do: {:noreply, state}
@@ -34,10 +35,15 @@ defmodule TicketToRide.ConnectionServer do
     |> Enum.any?(&spawn_connected?(&1, dest, [origin | cities_already_checked]))
   end
 
+  defp read_track_id_triples do
+    Track.all_id_triples |> Repo.all
+  end
+
   defp spawn_connected?(origin, dest, cities_already_checked) do
     # OPTIMIZE: Any way to remove semi-duplication with City.connected?/2 ?
     # OPTIMIZE: Supervisor with rest_for_one?
-    {:ok, pid} = GenServer.start_link(__MODULE__, [origin, dest, cities_already_checked])
+    args = [origin, dest, cities_already_checked]
+    {:ok, pid} = GenServer.start_link(__MODULE__, args)
     GenServer.call(pid, :connected?)
   end
 end
