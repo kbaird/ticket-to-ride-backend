@@ -7,6 +7,7 @@ defmodule TicketToRide.ConnectionServer do
   @type t :: %City{}
 
   def handle_call(:connected?, _from, [origin, dest, cities_already_checked]) do
+    _track_id_triples = read_track_id_triples
     result = connected?(origin, dest, cities_already_checked)
     {:reply, result, []}
   end
