@@ -34,9 +34,9 @@ defmodule TicketToRide.Track do
   def city_ids_connected_to(%City{} = city) do
     ### FIXME: Get Repo calls out of the model
     ### Phoenix policy is to keep views & models side effect-free
-    origin_ids      = ending_at(city)   |> origin_ids      |> Repo.all
-    destination_ids = starting_at(city) |> destination_ids |> Repo.all
-    origin_ids ++ destination_ids
+    id_pairs_connected_to(city) |> Repo.all
+                                |> List.flatten
+                                |> Enum.uniq
   end
 
 end
