@@ -1,0 +1,4 @@
+{
+  "minimum_coverage": 90,
+  "skip_files": [ "test" ]
+}
