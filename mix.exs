@@ -4,7 +4,7 @@ defmodule TicketToRide.Mixfile do
   def project do
     [app:               :ticket_to_ride,
      version:           "0.0.1",
-     elixir:            "~> 1.0",
+     elixir:            "~> 1.3",
      elixirc_paths:     elixirc_paths(Mix.env),
      compilers:         [:phoenix] ++ Mix.compilers,
      build_embedded:    Mix.env == :prod,
@@ -39,7 +39,6 @@ defmodule TicketToRide.Mixfile do
       { :phoenix_live_reload,  "~> 1.0",   only: :dev  },
       { :cowboy,               "~> 1.0"                },
       { :excoveralls,          "~> 0.3",   only: :test },
-      { :ex_spec,              "~> 0.3.0", only: :test }
     ]
   end
 end

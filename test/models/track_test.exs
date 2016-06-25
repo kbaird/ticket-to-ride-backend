@@ -3,7 +3,6 @@ defmodule TicketToRide.TrackTest do
   doctest TicketToRide.Track
   use TicketToRide.AssociationTestUtils, TicketToRide.Track
   use TicketToRide.ModelCase
-  use ExSpec
 
   alias TicketToRide.Track
 

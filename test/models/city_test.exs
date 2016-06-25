@@ -3,7 +3,6 @@ defmodule TicketToRide.CityTest do
   doctest TicketToRide.City
   use TicketToRide.AssociationTestUtils, TicketToRide.City
   use TicketToRide.ModelCase
-  use ExSpec
 
   alias TicketToRide.City
 
