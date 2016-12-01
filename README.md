@@ -1,4 +1,8 @@
-# TicketToRide [![Build Status](https://semaphoreci.com/api/v1/projects/4b6296b3-1b2b-4d0b-a448-a06296679302/533009/badge.svg)](https://semaphoreci.com/kbaird/ticket-to-ride-backend)
+# TicketToRide
+
+[![Build Status](https://semaphoreci.com/api/v1/projects/4b6296b3-1b2b-4d0b-a448-a06296679302/533009/badge.svg)](https://semaphoreci.com/kbaird/ticket-to-ride-backend)
+
+[![Ebert](https://ebertapp.io/github/kbaird/ticket-to-ride-backend.svg)](https://ebertapp.io/github/kbaird/ticket-to-ride-backend)
 
 A self-study Phoenix app providing a headless JSON API backend server for
 [Ticket To Ride](http://www.daysofwonder.com/tickettoride/en/usa/) by Days of Wonder. No challenge to copyrights or trademarks intended.
