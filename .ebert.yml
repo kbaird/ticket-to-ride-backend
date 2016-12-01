@@ -11,7 +11,7 @@ engines:
   credo:
     enabled: true
   fixme:
-    enabled: true
+    enabled: false
   eslint:
     enabled: false
   csslint:
@@ -19,7 +19,6 @@ engines:
   remark-lint:
     enabled: true
 exclude_paths:
-- README.md
 - config
 - priv/repo
 - test
