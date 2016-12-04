@@ -32,13 +32,13 @@ defmodule TicketToRide.Mixfile do
   # Type `mix help deps` for examples and options
   defp deps do
     [
-      { :phoenix,              "~> 1.0"                },
-      { :phoenix_ecto,         "~> 1.2.0"              },
-      { :postgrex,             ">= 0.0.0"              },
-      { :phoenix_html,         "~> 2.0"                },
-      { :phoenix_live_reload,  "~> 1.0",   only: :dev  },
-      { :cowboy,               "~> 1.0"                },
-      { :excoveralls,          "~> 0.3",   only: :test },
+      {:phoenix,              "~> 1.0"},
+      {:phoenix_ecto,         "~> 1.2.0"},
+      {:postgrex,             ">= 0.0.0"},
+      {:phoenix_html,         "~> 2.0"},
+      {:phoenix_live_reload,  "~> 1.0", only: :dev},
+      {:cowboy,               "~> 1.0"},
+      {:excoveralls,          "~> 0.3", only: :test},
     ]
   end
 end
